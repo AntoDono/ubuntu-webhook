@@ -14,14 +14,14 @@ app.get('/deploy/:name/:package', (req, res) => {
         }
     })
     console.log(`Pulling latest docker  ${req.params.name}/${req.params.package} image...`)
-    exec(`sudo docker restart  ${req.params.name}/${req.params.package}:latest`, (error, stdout, stderr) => {
+    exec(`sudo docker restart ${req.params.package}`, (error, stdout, stderr) => {
         console.log(stdout);
         console.log(stderr);
         if (error !== null) {
             console.log(`exec error: ${error}`);
         }
     })
-    console.log(`Restartubg docker container  ${req.params.name}/${req.params.package}:latest`)
+    console.log(`Restartubg docker container ${req.params.name}/${req.params.package}:latest`)
 })
 
 app.listen(PORT, () => {
