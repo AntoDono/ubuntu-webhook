@@ -1,0 +1,23 @@
+{
+  "name": "ubuntu-webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntoDono/ubuntu-webhook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AntoDono/ubuntu-webhook/issues"
+  },
+  "homepage": "https://github.com/AntoDono/ubuntu-webhook#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  }
+}
