@@ -22,13 +22,13 @@ app.get('/deploy/:name/:package/:version', async(req, res) => {
 
     try{
         console.log(`Pulling latest docker ${name}/${package}:${version} image...`)
-        await bash('./pull.sh', name, package, version)
+        await bash('./scripts/pull.sh', name, package, version)
     
         console.log(`Stopping docker container ${name}/${package}:${version}`)
-        await bash('./stop.sh', name, package, version)
+        await bash('./scripts/stop.sh', name, package, version)
     
         console.log(`Starting docker container ${name}/${package}:${version}`)
-        await bash('./start.sh', name, package, version)
+        await bash('./scripts/start.sh', name, package, version)
     }catch(err){
         console.error(`[ ERROR ]: ${err}\n\nAbandoning current request.`);
         res.status(400)
