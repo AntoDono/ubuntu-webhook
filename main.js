@@ -9,7 +9,7 @@ async function bash(file_path, name, package, version) {
   try {
     const { stdout, stderr } = await exec(`bash '${file_path}' -n ${name} -p '${package}' -v '${version}'`);
     console.log(stdout);
-    console.log(`[ ERROR ]: ${stderr}`);
+    if (stderr) console.log(`[ ERROR ]: ${stderr}`);
     console.log("==========\n\nDONE WITH SCRIPT\n\n==========")
     return stdout
   }catch (err){
@@ -36,7 +36,7 @@ app.get('/deploy/:name/:package/:version', async(req, res) => {
     
         console.log(`Starting docker container ${name}/${package}:${version}`)
         await bash('./scripts/start.sh', name, package, version)
-        
+
     }catch(err){
         console.error(`[ ERROR ]: ${err}\n\nAbandoning current request.`);
         res.status(400)
