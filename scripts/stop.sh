@@ -7,4 +7,7 @@ do
     esac
 done
 
-docker rm $(docker stop $(docker ps -a -q --filter ancestor=$name/$package:$version --format="{{.ID}}"));
+container_id=$(docker ps -a -q --filter ancestor=$name/$package:$version --format="{{.ID}}");
+container_name=$(docker ps -a -q --filter ancestor=$name/$package:$version --format="{{.NAMES}}");
+docker rm $container_name;
+docker stop $container_id;
