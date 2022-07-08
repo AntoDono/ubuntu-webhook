@@ -10,6 +10,7 @@ async function bash(file_path, name, package, version) {
     const { stdout, stderr } = await exec(`bash '${file_path}' -n ${name} -p '${package}' -v '${version}'`);
     console.log(stdout);
     console.log(`[ ERROR ]: ${stderr}`);
+    console.log("==========\n\nDONE WITH SCRIPT\n\n==========")
   }catch (err){
     console.error(`[ FATAL ERROR ]: ${err}`);
   };
