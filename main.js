@@ -28,7 +28,8 @@ app.get('/deploy/:name/:package/:version', async(req, res) => {
 
         if (result.length == 2){ 
           console.log(`Stopping docker container ${name}/${package}:${version}`)
-          await bash('./scripts/stop.sh', result[0], result[1]) // 0 index should be id, 1 should be name
+          await bash('./scripts/stop.sh', result[0], result[1], version) // 0 index should be id, 1 should be name
+          await bash('./scripts/rm.sh', result[0], result[1], version) // 0 index should be id, 1 should be name
         }
 
         console.log(`Pulling latest docker ${name}/${package}:${version} image...`)

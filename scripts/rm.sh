@@ -6,4 +6,4 @@ do
     esac
 done
 
-docker stop $container_id;
+docker rm $container_name;
