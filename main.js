@@ -10,7 +10,6 @@ async function bash(file_path, arg) {
     const { stdout, stderr } = await exec(`bash '${file_path}' ${arg}`);
     console.log(stdout);
     if (stderr) console.log(`[ ERROR ]: ${stderr}`);
-    console.log("==========\n\nDONE WITH SCRIPT\n\n==========")
     return stdout
   }catch (err){
     console.error(`[ FATAL ERROR ]: ${err}`);
@@ -23,19 +22,20 @@ app.get('/deploy/:name/:package/:version', async(req, res) => {
     let version = req.params.version
 
     try{
-        console.log(`Fetching for pacakage ID and name of ${name}/${package}:${version} image`)
+        console.log(`[Redeploy Sys]: Fetching for pacakage ID and name of ${name}/${package}:${version} image`)
         let result = (await bash('./scripts/get_package.sh', `-n ${name} -p '${package}' -v '${version}'`)).split(",")
 
         if (result.length == 2){ 
-          console.log(`Stopping docker container ${name}/${package}:${version}`)
+          console.log(`[Redeploy Sys]: Running container already exists, stopping ${name}/${package}:${version}`)
           await bash('./scripts/stop.sh', `-n ${result[0]} -i '${result[1]}'`) // 0 index should be id, 1 should be name
+          console.log(`[Redeploy Sys]: Removing name of container ${name}/${package}:${version}`)
           await bash('./scripts/rm.sh', `-n ${result[0]} -i '${result[1]}'`) // 0 index should be id, 1 should be name
         }
 
-        console.log(`Pulling latest docker ${name}/${package}:${version} image...`)
+        console.log(`[Redeploy Sys]: Pulling latest docker ${name}/${package}:${version} image...`)
         await bash('./scripts/pull.sh', `-n ${name} -p '${package}' -v '${version}'`)
     
-        console.log(`Starting docker container ${name}/${package}:${version}`)
+        console.log(`[Redeploy Sys]: Starting docker container ${name}/${package}:${version}`)
         await bash('./scripts/start.sh', `-n ${name} -p '${package}' -v '${version}'`)
 
     }catch(err){
