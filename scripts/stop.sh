@@ -11,5 +11,5 @@ container_id=$(docker ps -a -q --filter ancestor=$name/$package:$version --forma
 container_name=$(docker ps -a -q --filter ancestor=$name/$package:$version --format="{{.Names}}");
 echo ID: $container_id;
 echo Name: $container_name;
-docker rm $container_name;
 docker stop $container_id;
+docker rm $container_name;
