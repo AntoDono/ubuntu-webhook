@@ -6,4 +6,5 @@ do
         v) version=${OPTARG};;
     esac
 done
-docker rm $(docker stop $(docker ps -a -q --filter ancestor=$(name)/$(package):$(version) --format="{{.ID}}"));
+
+docker rm $(docker stop $(docker ps -a -q --filter ancestor=$name/$package:$version --format="{{.ID}}"));
