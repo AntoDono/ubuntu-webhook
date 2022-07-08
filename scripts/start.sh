@@ -7,4 +7,4 @@ do
     esac
 done
 
-docker start -d --name $package $name/$package:$version;
+docker run -d --name $package $name/$package:$version;
