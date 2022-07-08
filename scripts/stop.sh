@@ -9,5 +9,7 @@ done
 
 container_id=$(docker ps -a -q --filter ancestor=$name/$package:$version --format="{{.ID}}");
 container_name=$(docker ps -a -q --filter ancestor=$name/$package:$version --format="{{.NAMES}}");
+echo $container_id;
+echo $container_name;
 docker rm $container_name;
 docker stop $container_id;
