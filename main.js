@@ -11,6 +11,7 @@ async function bash(file_path, name, package, version) {
     console.log(stdout);
     console.log(`[ ERROR ]: ${stderr}`);
     console.log("==========\n\nDONE WITH SCRIPT\n\n==========")
+    return stdout
   }catch (err){
     console.error(`[ FATAL ERROR ]: ${err}`);
   };
@@ -22,14 +23,20 @@ app.get('/deploy/:name/:package/:version', async(req, res) => {
     let version = req.params.version
 
     try{
+        console.log(`Fetching for pacakage ID and name of ${name}/${package}:${version} image`)
+        let result = await bash('./scripts/get_package.sh', name, package, version).split(",")
+
+        if (result.length == 2){ 
+          console.log(`Stopping docker container ${name}/${package}:${version}`)
+          await bash('./scripts/stop.sh', result[0], result[1]) // 0 index should be id, 1 should be name
+        }
+
         console.log(`Pulling latest docker ${name}/${package}:${version} image...`)
         await bash('./scripts/pull.sh', name, package, version)
     
-        console.log(`Stopping docker container ${name}/${package}:${version}`)
-        await bash('./scripts/stop.sh', name, package, version)
-    
         console.log(`Starting docker container ${name}/${package}:${version}`)
         await bash('./scripts/start.sh', name, package, version)
+        
     }catch(err){
         console.error(`[ ERROR ]: ${err}\n\nAbandoning current request.`);
         res.status(400)
