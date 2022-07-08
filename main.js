@@ -24,7 +24,7 @@ app.get('/deploy/:name/:package/:version', async(req, res) => {
 
     try{
         console.log(`Fetching for pacakage ID and name of ${name}/${package}:${version} image`)
-        let result = await bash('./scripts/get_package.sh', name, package, version).split(",")
+        let result = (await bash('./scripts/get_package.sh', name, package, version)).split(",")
 
         if (result.length == 2){ 
           console.log(`Stopping docker container ${name}/${package}:${version}`)
