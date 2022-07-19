@@ -1,4 +1,4 @@
-while getopts n:p:v:o flag
+while getopts n:p:v:o: flag
 do 
     case "${flag}" in
         n) name=${OPTARG};;
