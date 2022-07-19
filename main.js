@@ -28,7 +28,7 @@ app.get('/deploy/:name/:package/:version/:port', async(req, res) => {
         console.log(`[Redeploy Sys]: Fetching for pacakage ID and name of ${name}/${package}:${version} image`)
         let result = (await bash('./scripts/get_package.sh', `-n ${name} -p '${package}' -v '${version}'`))
 
-        if (result.length != ","){ 
+        if (result != ","){ 
           result = result.split(",")
           console.log(`[Redeploy Sys]: Running container already exists, stopping ${name}/${package}:${version}`)
           await bash('./scripts/stop.sh', `-n ${result[0]} -i '${result[1]}'`) // 0 index should be id, 1 should be name
