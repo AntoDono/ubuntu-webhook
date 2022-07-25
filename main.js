@@ -52,8 +52,8 @@ app.get('/deploy/:name/:package/:version/:port', async(req, res) => {
     res.status(200).send(`Deploy request received, package: ${req.params.package}`)
 })
 
-app.get('/tunnel', async(req, res)=>{
-  let response = await fetch('https://github.com/');
+app.get('/tunnels', async(req, res)=>{
+  let response = await fetch('http://localhost:4040/api/tunnels');
   let body = await response.text();
   res.send(body)
 })
