@@ -1,5 +1,6 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+const fetch = require('node-fetch')
 const express = require('express')
 require("dotenv").config();
 const app = express()
@@ -49,6 +50,11 @@ app.get('/deploy/:name/:package/:version/:port', async(req, res) => {
 
 
     res.status(200).send(`Deploy request received, package: ${req.params.package}`)
+})
+
+app.get('/tunnel', async(req, res)=>{
+  let data = await fetch('http://localhost:4040/api/tunnels')
+  res.send(data)
 })
 
 app.listen(PORT, () => {
