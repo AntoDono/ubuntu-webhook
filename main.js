@@ -54,7 +54,8 @@ app.get('/deploy/:name/:package/:version/:port', async(req, res) => {
 
 app.get('/tunnels', async(req, res)=>{
   let response = await fetch('http://localhost:4040/api/tunnels');
-  let body = await response.text();
+  let body = JSON.parse(await response.text());
+  console.log(body.tunnels)
   if (!body.tunnels.length) {
     res.send("No tunnels running")
   }else{
