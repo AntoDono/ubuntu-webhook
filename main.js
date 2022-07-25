@@ -54,8 +54,7 @@ app.get('/deploy/:name/:package/:version/:port', async(req, res) => {
 
 app.get('/tunnel', async(req, res)=>{
   let data = await fetch('http://localhost:4040/api/tunnels')
-  console.log(data)
-  res.send(data)
+  res.send(data.body)
 })
 
 app.listen(PORT, () => {
