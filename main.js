@@ -59,7 +59,7 @@ app.get('/tunnels', async(req, res)=>{
   if (!body.tunnels.length) {
     res.send("No tunnels running")
   }else{
-    res.send(body[0].public_url)  
+    res.send(body[0]['public_url'])  
   }
 })
 
