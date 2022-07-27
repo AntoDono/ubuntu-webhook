@@ -23,7 +23,7 @@ app.post('/deploy', async(req, res) => {
     // let version = req.body.version
     // let port = req.body.port
 
-    console.log(req)
+    console.log(req.commit)
 
     res.send("Done")
 
