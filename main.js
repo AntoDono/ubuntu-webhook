@@ -24,7 +24,7 @@ app.post('/deploy', async(req, res) => {
     // let port = req.body.port
 
     console.log(req.body)
-    console.log(req.header)
+    console.log(req.headers)
     console.log(req.data)
 
     res.send("Done")
