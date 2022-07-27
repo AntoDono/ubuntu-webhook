@@ -17,15 +17,15 @@ async function bash(file_path, arg) {
   };
 };
 
-app.post('/deploy:name', async(req, res) => {
+app.post('/deploy', async(req, res) => {
     // let name = req.body.name
     // let package = req.body.package
     // let version = req.body.version
     // let port = req.body.port
 
-    console.log(req.params)
-    console.log(req.headers)
-    console.log(req.data)
+    console.log(req)
+    // console.log(req.headers)
+    // console.log(req.data)
 
     res.send("Done")
 
