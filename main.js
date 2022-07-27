@@ -23,6 +23,8 @@ app.post('/deploy', async(req, res) => {
     let version = req.body.version
     let port = req.body.port
 
+    console.log(req.body)
+
     if (!name || !package || !version || !port) res.status(400).send("Missing arguments")
 
     try{
