@@ -27,6 +27,7 @@ app.post('/deploy', async(req, res) => {
     console.log(req.headers)
     console.log(req.data)
     console.log(req.body)
+    console.log(req.payload)
 
     res.send("Done")
 
