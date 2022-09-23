@@ -18,6 +18,8 @@ async function bash(file_path, arg) {
 };
 
 app.post('/deploy', async(req, res) => {
+    console.log(req.body)
+
     let name = req.body.name
     let package = req.body.package
     let version = req.body.version
