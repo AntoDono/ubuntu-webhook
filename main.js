@@ -18,46 +18,38 @@ async function bash(file_path, arg) {
 };
 
 app.post('/deploy', async(req, res) => {
-    // let name = req.body.name
-    // let package = req.body.package
-    // let version = req.body.version
-    // let port = req.body.port
+    let name = req.body.name
+    let package = req.body.package
+    let version = req.body.version
+    let port = req.body.port
 
-    console.log(req.params)
-    console.log(req.headers)
-    console.log(req.data)
-    console.log(req.body)
-    console.log(req.payload)
+    if (!name || !package || !version || !port) res.status(400).send("Missing arguments")
 
-    res.send("Done")
+    try{
+        console.log(`[Redeploy Sys]: Fetching for pacakage ID and name of ${name}/${package}:${version} image`)
+        let result = (await bash('./scripts/get_package.sh', `-n ${name} -p '${package}' -v '${version}'`))
 
-    // if (!name || !package || !version || !port) res.status(400).send("Missing arguments")
+        if (result != ","){ 
+          result = result.split(",")
+          console.log(`[Redeploy Sys]: Running container already exists, stopping ${name}/${package}:${version}`)
+          await bash('./scripts/stop.sh', `-n ${result[0]} -i '${result[1]}'`) // 0 index should be id, 1 should be name
+          console.log(`[Redeploy Sys]: Removing name of container ${name}/${package}:${version}`)
+          await bash('./scripts/rm.sh', `-n ${result[0]} -i '${result[1]}'`) // 0 index should be id, 1 should be name
+        }
 
-    // try{
-    //     console.log(`[Redeploy Sys]: Fetching for pacakage ID and name of ${name}/${package}:${version} image`)
-    //     let result = (await bash('./scripts/get_package.sh', `-n ${name} -p '${package}' -v '${version}'`))
-
-    //     if (result != ","){ 
-    //       result = result.split(",")
-    //       console.log(`[Redeploy Sys]: Running container already exists, stopping ${name}/${package}:${version}`)
-    //       await bash('./scripts/stop.sh', `-n ${result[0]} -i '${result[1]}'`) // 0 index should be id, 1 should be name
-    //       console.log(`[Redeploy Sys]: Removing name of container ${name}/${package}:${version}`)
-    //       await bash('./scripts/rm.sh', `-n ${result[0]} -i '${result[1]}'`) // 0 index should be id, 1 should be name
-    //     }
-
-    //     console.log(`[Redeploy Sys]: Pulling latest docker ${name}/${package}:${version} image...`)
-    //     await bash('./scripts/pull.sh', `-n ${name} -p '${package}' -v '${version}'`)
+        console.log(`[Redeploy Sys]: Pulling latest docker ${name}/${package}:${version} image...`)
+        await bash('./scripts/pull.sh', `-n ${name} -p '${package}' -v '${version}'`)
     
-    //     console.log(`[Redeploy Sys]: Starting docker container ${name}/${package}:${version}`)
-    //     await bash('./scripts/start.sh', `-n ${name} -p '${package}' -v '${version}' -o '${port}'`)
+        console.log(`[Redeploy Sys]: Starting docker container ${name}/${package}:${version}`)
+        await bash('./scripts/start.sh', `-n ${name} -p '${package}' -v '${version}' -o '${port}'`)
 
-    // }catch(err){
-    //     console.error(`[ ERROR ]: ${err}\n\nAbandoning current request.`);
-    //     res.status(400).send("Server error")
-    // }
+    }catch(err){
+        console.error(`[ ERROR ]: ${err}\n\nAbandoning current request.`);
+        res.status(400).send("Server error")
+    }
 
 
-    // res.status(200).send(`Deploy request received, package: ${req.params.package}`)
+    res.status(200).send(`Deploy request received, package: ${req.params.package}`)
 })
 
 app.get('/tunnels', async(req, res)=>{
