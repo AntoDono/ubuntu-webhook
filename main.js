@@ -17,18 +17,12 @@ async function bash(file_path, arg) {
   };
 };
 
-app.post('/deploy', async(req, res) => {
-    console.log(req.body)
-    console.log(req.header)
-    console.log(req.headers)
-    console.log(req.params)
-    console.log(req.data)
-    console.log(JSON.stringify(req))
+app.get('/deploy/:name/:package/:version/:port', async(req, res) => {
 
-    let name = req.body.name
-    let package = req.body.package
-    let version = req.body.version
-    let port = req.body.port
+    let name = req.params.name
+    let package = req.params.package
+    let version = req.params.version
+    let port = req.params.port
 
     if (!name || !package || !version || !port) res.status(400).send("Missing arguments")
 
