@@ -18,7 +18,7 @@ async function bash(file_path, arg) {
 };
 
 app.post('/deploy', async(req, res) => {
-    console.log(req.data)
+    console.log(req)
 
     let name = req.body.name
     let package = req.body.package
